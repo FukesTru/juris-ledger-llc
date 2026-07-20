@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: juris-ledger-llc
+    runtime: node
+    plan: free
+    # devDependencies (vite, esbuild) are required for the build, so install everything.
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render injects PORT automatically; the server reads process.env.PORT.
+      #
+      # Optional — only needed if you later enable user login / owner notifications:
+      # - key: DATABASE_URL
+      #   sync: false
+      # - key: JWT_SECRET
+      #   sync: false
+      # - key: VITE_APP_ID
+      #   sync: false
+      # - key: OAUTH_SERVER_URL
+      #   sync: false
+      # - key: OWNER_OPEN_ID
+      #   sync: false
+      # - key: BUILT_IN_FORGE_API_URL
+      #   sync: false
+      # - key: BUILT_IN_FORGE_API_KEY
+      #   sync: false
