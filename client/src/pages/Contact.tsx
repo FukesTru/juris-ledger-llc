@@ -1,10 +1,14 @@
 // Contact page — Juris Ledger
 // Design: Counsel & Craft — Editorial financial services
 // Animations: Framer Motion — premium, subtle, trustworthy
-import { useEffect } from "react";
+// Booking flow: GHL form (step 1) hands the lead to Acuity Scheduling (step 2)
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin, CheckCircle2, ArrowDown } from "lucide-react";
 import PageHero from "@/components/PageHero";
+import AcuityScheduler from "@/components/AcuityScheduler";
+import { useExternalScript } from "@/hooks/useExternalScript";
+import { parseGhlFormSubmission, type LeadDetails } from "@/lib/booking";
 import { FIRM } from "@/lib/siteData";
 import {
   fadeUp, fadeLeft, fadeRight,
@@ -18,12 +22,31 @@ const GHL_FORM_SCRIPT_SRC = "https://link.msgsndr.com/js/form_embed.js";
 
 export default function Contact() {
   // Load GHL's form_embed.js once — it wires up iframe auto-resizing.
+  useExternalScript(GHL_FORM_SCRIPT_SRC);
+
+  const formFrameRef = useRef<HTMLIFrameElement>(null);
+  const bookingRef = useRef<HTMLElement>(null);
+  const [lead, setLead] = useState<LeadDetails | null>(null);
+
+  // Scroll to step 2 and move focus there so keyboard users continue from it.
+  const scrollToBooking = () => {
+    bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    bookingRef.current?.focus({ preventScroll: true });
+  };
+
+  // Once the lead submits the form, carry their details into the scheduler
+  // and move them on to picking a time.
   useEffect(() => {
-    if (document.querySelector(`script[src="${GHL_FORM_SCRIPT_SRC}"]`)) return;
-    const script = document.createElement("script");
-    script.src = GHL_FORM_SCRIPT_SRC;
-    script.async = true;
-    document.body.appendChild(script);
+    const handleMessage = (event: MessageEvent) => {
+      // Only our form's own window counts (the GHL chat widget posts messages too).
+      if (event.source !== formFrameRef.current?.contentWindow) return;
+      const submitted = parseGhlFormSubmission(event.data);
+      if (!submitted) return;
+      setLead(submitted);
+      scrollToBooking();
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (
@@ -137,25 +160,28 @@ export default function Contact() {
               </motion.div>
             </motion.div>
 
-            {/* Form */}
+            {/* Form, then booking */}
             <motion.div
-              className="lg:col-span-2"
+              className="lg:col-span-2 space-y-8"
               variants={fadeRight}
               initial="hidden"
               whileInView="visible"
               viewport={viewport}
             >
+              {/* Step 1 — GoHighLevel form */}
               <div className="bg-white border border-[#e6e0da] rounded-sm p-6 lg:p-8">
                 <div className="mb-6">
+                  <p className="jl-eyebrow mb-2">Step 1 of 2</p>
                   <h3 className="font-['Cormorant_Garamond'] text-2xl lg:text-3xl font-600 text-[#2a2825] mb-1">
                     Request a Consultation
                   </h3>
                   <p className="text-[#b6afa8] text-base font-['DM_Sans']">
-                    Fill out the form below and we will be in touch within one business day.
+                    Tell us a little about your business, then choose a time for your consultation.
                   </p>
                 </div>
 
                 <iframe
+                  ref={formFrameRef}
                   src={`https://api.leadconnectorhq.com/widget/form/${GHL_FORM_ID}`}
                   style={{ width: "100%", height: "600px", border: "none", borderRadius: "10px" }}
                   id={`inline-${GHL_FORM_ID}`}
@@ -178,7 +204,55 @@ export default function Contact() {
                   <a href="/privacy-policy" className="underline hover:text-[#075c5b] transition-colors">Privacy Policy</a>.
                   We will never share your information.
                 </p>
+
+                <div className="border-t border-[#e6e0da] mt-6 pt-5 text-center">
+                  <a
+                    href="#book"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToBooking();
+                    }}
+                    className="inline-flex items-center gap-1.5 text-[#075c5b] text-sm font-['DM_Sans'] font-600 tracking-wide hover:gap-3 transition-all duration-200"
+                  >
+                    Next, choose a time for your consultation <ArrowDown size={13} />
+                  </a>
+                </div>
               </div>
+
+              {/* Step 2 — Acuity Scheduling */}
+              <section
+                id="book"
+                ref={bookingRef}
+                tabIndex={-1}
+                aria-labelledby="book-heading"
+                className="bg-white border border-[#e6e0da] rounded-sm p-6 lg:p-8 scroll-mt-24 lg:scroll-mt-28 focus:outline-none"
+              >
+                <div className="mb-6">
+                  <p className="jl-eyebrow mb-2">Step 2 of 2</p>
+                  <h3 id="book-heading" className="font-['Cormorant_Garamond'] text-2xl lg:text-3xl font-600 text-[#2a2825] mb-1">
+                    Choose a Time
+                  </h3>
+                  <p className="text-[#b6afa8] text-base font-['DM_Sans']">
+                    Pick a date and time that works for you to book your consultation.
+                  </p>
+                </div>
+
+                <div role="status">
+                  {lead && (
+                    <div className="flex items-start gap-3 bg-[#075c5b]/5 border border-[#075c5b]/15 rounded-sm p-4 mb-6">
+                      <CheckCircle2 size={16} className="text-[#075c5b] flex-shrink-0 mt-1" />
+                      <p className="text-[#2a2825]/80 text-base font-['DM_Sans'] leading-relaxed">
+                        Thanks{lead.firstName ? `, ${lead.firstName}` : ""}! We have your details. Choose a time below to book your consultation.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Full card width on phones — the scheduler needs the room */}
+                <div className="-mx-6 sm:mx-0">
+                  <AcuityScheduler lead={lead} />
+                </div>
+              </section>
             </motion.div>
           </div>
         </div>

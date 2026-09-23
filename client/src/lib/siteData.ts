@@ -26,6 +26,8 @@ export const FIRM = {
   },
   googleBusiness: "https://share.google/dJe3QkRYVGXXtUlZj",
   scheduleUrl: "/contact",
+  // Acuity Scheduling page where leads book their consultation
+  bookingUrl: "https://JurisLedgerFrances.as.me/",
 };
 
 export const SERVICES = [
