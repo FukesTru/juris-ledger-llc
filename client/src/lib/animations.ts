@@ -27,6 +27,15 @@ export const viewport = {
   amount: 0.08,
 };
 
+// ── VIEWPORT CONFIG — TALL CONTAINERS ────────────────────────
+// For grids/lists taller than a phone screen: a fixed fraction may never be
+// reached, so trigger as soon as any part of the container is in view.
+export const viewportTall = {
+  once: true,
+  margin: "-60px 0px",
+  amount: "some" as const,
+};
+
 // ── FADE UP — primary scroll reveal ─────────────────────────
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
