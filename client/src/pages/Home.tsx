@@ -537,11 +537,11 @@ export default function Home() {
           <div className="jl-ticker-track">
             {[0, 1, 2, 3].map((set) => (
               <div key={set} className="jl-ticker-set">
-                <img src="https://jurisledger.com/wp-content/uploads/2024/04/Profit-First-Logo.png" alt="Profit First Certified Professional" className="jl-ticker-logo" />
-                <img src="https://jurisledger.com/wp-content/uploads/2024/04/QuickBooks-1.png" alt="QuickBooks Certified ProAdvisor" className="jl-ticker-logo" />
-                <img src="https://jurisledger.com/wp-content/uploads/2024/04/RelayCertifiedBankingPartner-large-colour.webp" alt="Relay Certified Banking Partner" className="jl-ticker-logo" style={{height:'4.25rem'}} />
-                <img src="https://jurisledger.com/wp-content/uploads/2024/04/2-300x107.png" alt="Clio Affiliate Partner" className="jl-ticker-logo" style={{height:'3.75rem'}} />
-                <img src="https://jurisledger.com/wp-content/uploads/2024/04/Military-Spouse-1.png" alt="Military Spouse Owned Business" className="jl-ticker-logo" />
+                <img src="/manus-storage/Profit-First-Logo.png" alt="Profit First Certified Professional" className="jl-ticker-logo" />
+                <img src="/manus-storage/QuickBooks-1.png" alt="QuickBooks Certified ProAdvisor" className="jl-ticker-logo" />
+                <img src="/manus-storage/RelayCertifiedBankingPartner.webp" alt="Relay Certified Banking Partner" className="jl-ticker-logo" style={{height:'4.25rem'}} />
+                <img src="/manus-storage/Clio-Affiliate-Partner.png" alt="Clio Affiliate Partner" className="jl-ticker-logo" style={{height:'3.75rem'}} />
+                <img src="/manus-storage/Military-Spouse.png" alt="Military Spouse Owned Business" className="jl-ticker-logo" />
               </div>
             ))}
           </div>
