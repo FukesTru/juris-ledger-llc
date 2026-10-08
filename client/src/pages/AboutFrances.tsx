@@ -207,11 +207,11 @@ export default function AboutFrances() {
               viewport={viewport}
             >
               {[
-                { src: "https://jurisledger.com/wp-content/uploads/2024/04/Profit-First-Logo.png", alt: "Profit First Certified Professional", h: "h-12 lg:h-14" },
-                { src: "https://jurisledger.com/wp-content/uploads/2024/04/QuickBooks-1.png", alt: "QuickBooks Certified ProAdvisor", h: "h-12 lg:h-14" },
-                { src: "https://jurisledger.com/wp-content/uploads/2024/04/RelayCertifiedBankingPartner-large-colour.webp", alt: "Relay Certified Banking Partner", h: "h-10 lg:h-12" },
-                { src: "https://jurisledger.com/wp-content/uploads/2024/04/2-300x107.png", alt: "Clio Affiliate Partner", h: "h-8 lg:h-10" },
-                { src: "https://jurisledger.com/wp-content/uploads/2024/04/Military-Spouse-1.png", alt: "Military Spouse Owned Business", h: "h-12 lg:h-14" },
+                { src: "/manus-storage/Profit-First-Logo.png", alt: "Profit First Certified Professional", h: "h-12 lg:h-14" },
+                { src: "/manus-storage/QuickBooks-1.png", alt: "QuickBooks Certified ProAdvisor", h: "h-12 lg:h-14" },
+                { src: "/manus-storage/RelayCertifiedBankingPartner.webp", alt: "Relay Certified Banking Partner", h: "h-10 lg:h-12" },
+                { src: "/manus-storage/Clio-Affiliate-Partner.png", alt: "Clio Affiliate Partner", h: "h-8 lg:h-10" },
+                { src: "/manus-storage/Military-Spouse.png", alt: "Military Spouse Owned Business", h: "h-12 lg:h-14" },
               ].map(({ src, alt, h }) => (
                 <motion.img
                   key={alt}

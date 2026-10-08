@@ -18,6 +18,10 @@ import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 
+// Blog pages
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+
 // Service pages
 import ServicePage from "./pages/ServicePage";
 
@@ -42,6 +46,8 @@ function Router() {
       <Route path="/industries/:slug" component={IndustryPage} />
       <Route path="/locations" component={Locations} />
       <Route path="/locations/:slug" component={LocationPage} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/contact" component={Contact} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/terms-of-service" component={Terms} />

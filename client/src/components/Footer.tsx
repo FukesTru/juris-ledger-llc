@@ -143,6 +143,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/blog" className="text-white/60 hover:text-white text-base font-['DM_Sans'] transition-colors duration-200">
+                  Blog
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-white/60 hover:text-white text-base font-['DM_Sans'] transition-colors duration-200">
                   Contact Us
                 </Link>

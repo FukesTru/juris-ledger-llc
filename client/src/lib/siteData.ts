@@ -494,5 +494,6 @@ export const NAV_ITEMS = [
       { label: "Frederick, MD", href: "/locations/frederick-md" },
     ],
   },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
